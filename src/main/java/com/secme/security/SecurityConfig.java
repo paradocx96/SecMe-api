@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .mvcMatchers("/api/post/private").authenticated()
                 .mvcMatchers("/api/post/scopeadmin").hasAuthority("read_admin:messages")
                 .mvcMatchers("/api/post/scopemanager").hasAuthority("read:messages")
-                .mvcMatchers("/api/post/scopeadmin").hasAuthority("SCOPE_read:messages")
+                .mvcMatchers("/api/post/scopeworker").hasAuthority("SCOPE_read:messages")
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();
