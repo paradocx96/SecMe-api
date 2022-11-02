@@ -1,0 +1,11 @@
+debug: true
+server:
+  port: 5000
+auth0:
+  audience: https://sec-me-api.herokuapp.com
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://paradocx.us.auth0.com/
