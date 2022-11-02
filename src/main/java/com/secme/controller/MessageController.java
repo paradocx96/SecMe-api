@@ -1,7 +1,5 @@
 package com.secme.controller;
 
-// src/main/java/com/auth0/example/web/APIController.java
-
 import com.secme.model.Message;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
