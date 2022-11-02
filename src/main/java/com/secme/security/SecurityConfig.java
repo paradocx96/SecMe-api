@@ -24,9 +24,9 @@ public class SecurityConfig {
         // http.oauth2Login();
 
         http.authorizeRequests()
-                .mvcMatchers("/api/public").permitAll()
-                .mvcMatchers("/api/private").authenticated()
-                .mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages")
+                .mvcMatchers("/api/post/public").permitAll()
+                .mvcMatchers("/api/post/private").authenticated()
+                .mvcMatchers("/api/post/private-scoped").hasAuthority("SCOPE_read:messages")
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();
