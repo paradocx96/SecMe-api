@@ -3,6 +3,12 @@ package com.secme.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/*
+ * IT19014128 - A.M.W.W.R.L. Wataketiya
+ *
+ * The model class for Message
+ * */
+
 @Document("Messages")
 public class Message {
 

@@ -9,6 +9,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+/*
+ * IT19014128 - A.M.W.W.R.L. Wataketiya
+ *
+ * The Messages Adapter Implementation
+ * */
+
 @Component
 public class MessagesAdapterMongoImpl implements MessagesAdapter {
 
