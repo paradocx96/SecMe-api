@@ -9,7 +9,7 @@ public interface MessagesAdapter {
     List<Message> getAll();
     Message update(Message message);
     String delete (String id);
-    List<Message> getById (String id);
+    Message getById (String id);
     List<Message> getByUsername (String username);
     String updateContent(String id, String newContent);
 }
