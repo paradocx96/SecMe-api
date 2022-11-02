@@ -22,8 +22,18 @@ public class PostController {
         return new Post("All good. You can see this because you are Authenticated.");
     }
 
-    @GetMapping(value = "/private-scoped")
-    public Post privateScopedEndpoint() {
-        return new Post("All good. You can see this because you are Authenticated with a Token granted the 'read:messages' scope");
+    @GetMapping(value = "/scopeadmin")
+    public Post privateScopedAdminEndpoint() {
+        return new Post("All good. You can see this because you are Authenticated with a Token granted. Role:Amin");
+    }
+
+    @GetMapping(value = "/scopemanager")
+    public Post privateScopedManagerEndpoint() {
+        return new Post("All good. You can see this because you are Authenticated with a Token granted. Role:Manager");
+    }
+
+    @GetMapping(value = "/scopeworker")
+    public Post privateScopedWorkerEndpoint() {
+        return new Post("All good. You can see this because you are Authenticated with a Token granted. Role:Worker");
     }
 }
