@@ -35,7 +35,7 @@ public class MessagesApi {
     }
 
     //get all the messages in the system
-    public List<MessageDto> getAlMessages(){
+    public List<MessageDto> getAllMessages(){
         List<Message> messages = messagesAdapter.getAll();
         List<MessageDto> messageDtos  = new ArrayList<>();
         for (Message message :  messages){
@@ -43,6 +43,11 @@ public class MessagesApi {
             messageDtos.add(messageDto);
         }
         return messageDtos;
+    }
+
+    //get a message by id
+    public MessageDto getMessageById(String id){
+        return MessageDtoConverter.convertModelToDtoWithId(messagesAdapter.getById(id));
     }
 
     //get all messages by creator's username
