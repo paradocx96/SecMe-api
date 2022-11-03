@@ -23,8 +23,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // http.oauth2Login();
 
+        //temporarily disabled csrf for testing
+        //enable csrf tokens and remove the below line
+        http.csrf().disable();
+
         http.authorizeRequests()
                 .mvcMatchers("/api/post/public").permitAll()
+                .mvcMatchers("/api/messages/**").permitAll()
                 .mvcMatchers("/api/post/private").authenticated()
                 .mvcMatchers("/api/post/private-scoped").hasAuthority("SCOPE_read:messages")
                 .and().cors()
