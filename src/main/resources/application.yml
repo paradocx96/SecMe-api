@@ -1,6 +1,6 @@
 debug: true
 server:
-  port: 5000
+  port: 443
 auth0:
   audience: https://sec-me-api.herokuapp.com
 spring:
