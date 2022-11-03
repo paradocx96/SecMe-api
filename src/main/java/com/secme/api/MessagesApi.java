@@ -47,6 +47,11 @@ public class MessagesApi {
 
     //get a message by id
     public MessageDto getMessageById(String id){
+        Message message = messagesAdapter.getById(id);
+        //if the message is null return null
+        if (message == null){
+            return null;
+        }
         return MessageDtoConverter.convertModelToDtoWithId(messagesAdapter.getById(id));
     }
 

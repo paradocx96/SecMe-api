@@ -40,11 +40,11 @@ public class MessagesController {
         //if no message is found for the given id
         //return bad request
         if (messageDto == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("ID not found", HttpStatus.BAD_REQUEST);
         }
 
         //return the message for the id
-        return new ResponseEntity<>(messagesApi.getMessageById(id), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(messagesApi.getMessageById(id), HttpStatus.OK);
     }
 
     //endpoint to get all messages by a username
@@ -66,7 +66,7 @@ public class MessagesController {
         //if no message is found for the given id
         //return bad request
         if (messageDto == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("ID not found", HttpStatus.BAD_REQUEST);
         }
         //deletion completed. Return no content
         return  new ResponseEntity<>(messagesApi.deleteMessage(id), HttpStatus.NO_CONTENT);
