@@ -25,16 +25,16 @@ public class SecurityConfig {
 
         //temporarily disabled csrf for testing
         //enable csrf tokens and remove the below line
-        http.csrf().disable();
+//        http.csrf().disable();
 
         http.authorizeRequests()
                 .mvcMatchers("/api/post/public").permitAll()
                 .mvcMatchers("/api/messages/**").permitAll()
                 .mvcMatchers("/api/files/**").permitAll()
                 .mvcMatchers("/api/post/private").authenticated()
-                .mvcMatchers("/api/post/scopeadmin").hasAuthority("read_admin:messages")
-                .mvcMatchers("/api/post/scopemanager").hasAuthority("read:messages")
-                .mvcMatchers("/api/post/scopeworker").hasAuthority("SCOPE_read:messages")
+                .mvcMatchers("/api/post/scopeadmin").hasAuthority("create:file")
+                .mvcMatchers("/api/post/scopemanager").hasAuthority("create:file")
+                .mvcMatchers("/api/post/scopeworker").hasAuthority("create:message")
                 .and().cors()
                 .and().oauth2ResourceServer().jwt();
         return http.build();

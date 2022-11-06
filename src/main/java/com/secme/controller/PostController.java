@@ -1,15 +1,14 @@
 package com.secme.controller;
 
 import com.secme.model.Post;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "api/post", produces = MediaType.APPLICATION_JSON_VALUE)
-@CrossOrigin(origins = "*")
+@RequestMapping(path = "api/post")
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "*")
 public class PostController {
 
     @GetMapping(value = "/public")
