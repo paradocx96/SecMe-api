@@ -30,6 +30,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .mvcMatchers("/api/post/public").permitAll()
                 .mvcMatchers("/api/messages/**").permitAll()
+                .mvcMatchers("/api/files/**").permitAll()
                 .mvcMatchers("/api/post/private").authenticated()
                 .mvcMatchers("/api/post/scopeadmin").hasAuthority("read_admin:messages")
                 .mvcMatchers("/api/post/scopemanager").hasAuthority("read:messages")
