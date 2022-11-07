@@ -1,6 +1,7 @@
 package com.secme.controller;
 
 import com.secme.model.Post;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,16 +23,19 @@ public class PostController {
     }
 
     @GetMapping(value = "/scopeadmin")
+    @PreAuthorize("hasAuthority('delete:messages')")
     public Post privateScopedAdminEndpoint() {
         return new Post("All good. You can see this because you are Authenticated with a Token granted. Role:Amin");
     }
 
     @GetMapping(value = "/scopemanager")
+    @PreAuthorize("hasAuthority('read:file')")
     public Post privateScopedManagerEndpoint() {
         return new Post("All good. You can see this because you are Authenticated with a Token granted. Role:Manager");
     }
 
     @GetMapping(value = "/scopeworker")
+    @PreAuthorize("hasAuthority('delete:messages')")
     public Post privateScopedWorkerEndpoint() {
         return new Post("All good. You can see this because you are Authenticated with a Token granted. Role:Worker");
     }
