@@ -2,7 +2,7 @@ debug: true
 server:
   port: 443
 auth0:
-  audience: https://sec-me-api.herokuapp.com
+  audience: https://sec-me-api.com/
 spring:
   security:
     oauth2:
