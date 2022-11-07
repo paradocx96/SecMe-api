@@ -1,14 +1,13 @@
 package com.secme.controller;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
-import org.springframework.http.MediaType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 public class WelcomeController {
 
