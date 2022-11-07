@@ -1,3 +1,8 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+```dockerfile
+
 name: Docker Image CI
 
 on:
@@ -29,3 +34,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/secme-api:${{ github.sha }}
 
+```
