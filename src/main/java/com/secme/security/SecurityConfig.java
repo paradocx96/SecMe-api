@@ -1,81 +1,95 @@
 package com.secme.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
-import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
-@EnableWebSecurity
+@Configuration
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final AuthenticationErrorHandler authenticationErrorHandler;
+
+    private final OAuth2ResourceServerProperties resourceServerProps;
 
     @Value("${auth0.audience}")
     private String audience;
 
-    @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
-    private String issuer;
+    @Override
+    public void configure(final WebSecurity web) throws Exception {
+        String exclusionRegex = String.format(
+                "^(?!%s|%s|%s).*$",
+                "/api/post/",
+                "/api/files/",
+                "/api/messages/"
+        );
+
+        web.ignoring().regexMatchers(exclusionRegex);
+    }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers(HttpMethod.GET,"/api/post/public").permitAll()
-                .mvcMatchers(HttpMethod.GET,"/api/messages/**").permitAll()
-                .mvcMatchers(HttpMethod.GET,"/api/files/**").permitAll()
-                .anyRequest()
+                .mvcMatchers("/api/post/public").permitAll()
+                .mvcMatchers("/api/post/private").permitAll()
+                .antMatchers(
+                        "/api/post/**",
+                        "/api/files/**",
+                        "/api/messages/**"
+                )
                 .authenticated()
+                .anyRequest()
+                .permitAll()
                 .and()
                 .cors()
-                .configurationSource(corsConfigurationSource())
                 .and()
                 .oauth2ResourceServer()
+                .authenticationEntryPoint(authenticationErrorHandler)
                 .jwt()
-                .decoder(jwtDecoder())
-                .jwtAuthenticationConverter(jwtAuthenticationConverter());
+                .decoder(makeJwtDecoder())
+                .jwtAuthenticationConverter(makePermissionsConverter());
     }
 
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedMethods(Arrays.asList(
-                HttpMethod.GET.name(),
-                HttpMethod.PUT.name(),
-                HttpMethod.POST.name(),
-                HttpMethod.DELETE.name()
-        ));
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());
-        return source;
-    }
-
-    JwtDecoder jwtDecoder() {
-        OAuth2TokenValidator<Jwt> withAudience = new AudienceValidator(audience);
+    private JwtDecoder makeJwtDecoder() {
+        String issuer = resourceServerProps.getJwt().getIssuerUri();
+        NimbusJwtDecoder decoder = JwtDecoders.<NimbusJwtDecoder>fromIssuerLocation(issuer);
         OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuer);
-        OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withAudience, withIssuer);
+        OAuth2TokenValidator<Jwt> tokenValidator = new DelegatingOAuth2TokenValidator<>(withIssuer, this::withAudience);
 
-        NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder) JwtDecoders.fromOidcIssuerLocation(issuer);
-        jwtDecoder.setJwtValidator(validator);
-        return jwtDecoder;
+        decoder.setJwtValidator(tokenValidator);
+        return decoder;
     }
 
-    JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter converter = new JwtGrantedAuthoritiesConverter();
-        converter.setAuthoritiesClaimName("permissions");
-        converter.setAuthorityPrefix("");
+    private OAuth2TokenValidatorResult withAudience(final Jwt token) {
+        OAuth2Error audienceError = new OAuth2Error(
+                OAuth2ErrorCodes.INVALID_TOKEN,
+                "The token was not issued for the given audience",
+                "https://datatracker.ietf.org/doc/html/rfc6750#section-3.1"
+        );
 
-        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
-        jwtConverter.setJwtGrantedAuthoritiesConverter(converter);
-        return jwtConverter;
+        return token.getAudience().contains(audience)
+                ? OAuth2TokenValidatorResult.success()
+                : OAuth2TokenValidatorResult.failure(audienceError);
+    }
+
+    private JwtAuthenticationConverter makePermissionsConverter() {
+        JwtGrantedAuthoritiesConverter jwtAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        jwtAuthoritiesConverter.setAuthoritiesClaimName("permissions");
+        jwtAuthoritiesConverter.setAuthorityPrefix("");
+
+        JwtAuthenticationConverter jwtAuthConverter = new JwtAuthenticationConverter();
+        jwtAuthConverter.setJwtGrantedAuthoritiesConverter(jwtAuthoritiesConverter);
+
+        return jwtAuthConverter;
     }
 }
