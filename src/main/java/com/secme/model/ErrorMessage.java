@@ -1,3 +1,9 @@
+/*
+ * SSD - SecMe API
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ */
 package com.secme.model;
 
 import lombok.Value;
