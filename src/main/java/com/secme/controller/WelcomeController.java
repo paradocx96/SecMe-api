@@ -1,3 +1,9 @@
+/*
+ * SSD - SecMe API
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ */
 package com.secme.controller;
 
 import com.nimbusds.jose.shaded.json.JSONObject;
@@ -6,6 +12,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/*
+ * API Controller for Root
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ *
+ */
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
