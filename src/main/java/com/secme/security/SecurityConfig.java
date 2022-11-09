@@ -1,3 +1,9 @@
+/*
+ * SSD - SecMe API
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ */
 package com.secme.security;
 
 import lombok.RequiredArgsConstructor;
@@ -13,23 +19,34 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 
+/*
+ * Security Configurations for the API Endpoints
+ * and RBAC (Role Based Access Control)
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ *
+ * */
 @Configuration
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    // Define objects for OAuth2 Resource Server Properties
+    // and Authentication Error Handler
     private final AuthenticationErrorHandler authenticationErrorHandler;
-
     private final OAuth2ResourceServerProperties resourceServerProps;
 
+    // Define the audience of the OAuth2 Server
     @Value("${auth0.audience}")
     private String audience;
 
+    // Configure the allowed API endpoints
     @Override
     public void configure(final WebSecurity web) throws Exception {
         String exclusionRegex = String.format(
                 "^(?!%s|%s|%s).*$",
-                "/api/post/",
+                "/api/auth/",
                 "/api/files/",
                 "/api/messages/"
         );
@@ -37,13 +54,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().regexMatchers(exclusionRegex);
     }
 
+    // Configure the security of the API endpoints
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/api/post/public").permitAll()
-                .mvcMatchers("/api/post/private").permitAll()
+                .mvcMatchers("/api/auth/public").permitAll()
                 .antMatchers(
-                        "/api/post/**",
+                        "/api/auth/**",
                         "/api/files/**",
                         "/api/messages/**"
                 )
@@ -60,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .jwtAuthenticationConverter(makePermissionsConverter());
     }
 
+    // Configure the JWT Decoder
     private JwtDecoder makeJwtDecoder() {
         String issuer = resourceServerProps.getJwt().getIssuerUri();
         NimbusJwtDecoder decoder = JwtDecoders.<NimbusJwtDecoder>fromIssuerLocation(issuer);
@@ -70,6 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return decoder;
     }
 
+    // Configure the JWT Authentication Validator
     private OAuth2TokenValidatorResult withAudience(final Jwt token) {
         OAuth2Error audienceError = new OAuth2Error(
                 OAuth2ErrorCodes.INVALID_TOKEN,
@@ -82,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 : OAuth2TokenValidatorResult.failure(audienceError);
     }
 
+    // Configure the JWT Authentication Converter
     private JwtAuthenticationConverter makePermissionsConverter() {
         JwtGrantedAuthoritiesConverter jwtAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
         jwtAuthoritiesConverter.setAuthoritiesClaimName("permissions");
