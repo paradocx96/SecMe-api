@@ -1,8 +1,7 @@
 /**
- * @author H.G. Malwatta - IT19240848
- * @version 1.0
- *
- * This class is used to store the file details temporarily
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This class is used to store the file details temporarily
+ * @version: 1.0
  */
 package com.secme.dto;
 
