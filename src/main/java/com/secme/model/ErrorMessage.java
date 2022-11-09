@@ -8,6 +8,13 @@ package com.secme.model;
 
 import lombok.Value;
 
+/*
+ * Model Class for Error Message Response
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ *
+ * */
 @Value
 public class ErrorMessage {
 

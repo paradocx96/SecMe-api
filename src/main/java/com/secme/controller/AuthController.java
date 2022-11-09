@@ -6,35 +6,47 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/*
+ * Controller Class for Authentication Test
+ *
+ * @author IT19180526 - S.A.N.L.D. Chandrasiri
+ * @version 1.0
+ *
+ * */
 @RestController
 @RequestMapping(path = "api/auth")
 public class AuthController {
 
+    // Endpoint for Public Access - api/auth/public - GET
     @GetMapping(value = "/public")
     public Auth publicEndpoint() {
-        return new Auth("All good. You DO NOT need to be authenticated to call /api/public.");
+        return new Auth("Do not need to be authenticated. (api/auth/public)");
     }
 
+    // Endpoint for Authenticated Access - api/auth/private - GET
     @GetMapping(value = "/private")
     public Auth privateEndpoint() {
-        return new Auth("All good. You are Authenticated.");
+        return new Auth("Authenticated. (api/auth/private)");
     }
 
-    @GetMapping(value = "/scopeadmin")
+    // Endpoint for Admin Access - api/auth/admin - GET
+    @GetMapping(value = "/admin")
     @PreAuthorize("hasAuthority('read:admin-post')")
     public Auth privateScopedAdminEndpoint() {
-        return new Auth("All good. Role:Amin");
+        return new Auth("Authenticated. Role:Amin");
     }
 
-    @GetMapping(value = "/scopemanager")
+    // Endpoint for Manager Access - api/auth/manager - GET
+    @GetMapping(value = "/manager")
     @PreAuthorize("hasAuthority('read:manager-post')")
     public Auth privateScopedManagerEndpoint() {
-        return new Auth("All good. Role:Manager");
+        return new Auth("Authenticated. Role:Manager");
     }
 
-    @GetMapping(value = "/scopeworker")
+    // Endpoint for Worker Access - api/auth/worker - GET
+    @GetMapping(value = "/worker")
     @PreAuthorize("hasAuthority('read:worker-post')")
     public Auth privateScopedWorkerEndpoint() {
-        return new Auth("All good. Role:Worker");
+        return new Auth("Authenticated. Role:Worker");
     }
 }
