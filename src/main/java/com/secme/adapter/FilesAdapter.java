@@ -1,8 +1,7 @@
 /**
- * @author H.G. Malwatta - IT19240848
- * @version 1.0
- *
- * This interface is used to define the methods for the FileAdapter
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This interface is used to define the methods for the FileAdapter
+ * @version: 1.0
  */
 
 package com.secme.adapter;

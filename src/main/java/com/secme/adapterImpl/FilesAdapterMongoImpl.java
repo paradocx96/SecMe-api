@@ -1,8 +1,7 @@
 /**
- * @author H.G. Malwatta - IT19240848
- * @version 1.0
- *
- * This class is used to store the file details in the database
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This class is used to store the file details in the database
+ * @version: 1.0
  */
 
 package com.secme.adapterImpl;
@@ -41,20 +40,8 @@ public class FilesAdapterMongoImpl implements FilesAdapter {
 
     @Override
     public FileResponseDto delete(String id) {
-
-       FileResponseDto fileResponseDto = new FileResponseDto();
-
-        if(filesMongoRepository.findById(id).isPresent()){
             filesMongoRepository.deleteById(id);
-            fileResponseDto.setMessage("File deleted successfully");
-            fileResponseDto.setStatus("success");
-
-            return fileResponseDto;
-        }
-
-        fileResponseDto.setMessage("File not found");
-        fileResponseDto.setStatus("error");
-        return fileResponseDto;
+            return null;
     }
 
     @Override

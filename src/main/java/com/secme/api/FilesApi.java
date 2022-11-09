@@ -1,3 +1,10 @@
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This is the API class for the all the file related operations
+ * @Version: 1.0.0
+ *
+ */
+
 package com.secme.api;
 
 import com.secme.adapter.FilesAdapter;
@@ -36,6 +43,7 @@ public class FilesApi {
         return filesAdapter.save(file);
     }
 
+    //method to save a file as binary
     public File saveFileAsBinary(MultipartFile multipartFile, String username, String dateTime, String data) throws IOException {
         File file = new File();
         file.setName(multipartFile.getOriginalFilename());

@@ -1,3 +1,9 @@
+/**
+ * @Author: H.G. Malwatta - IT19240848
+ * @Description: This class is used to store the file related responses remporarily
+ * @Version: 1.0.0
+ *
+ */
 package com.secme.dto;
 
 public class FileResponseDto {
