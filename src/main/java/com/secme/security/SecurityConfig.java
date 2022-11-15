@@ -41,25 +41,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${auth0.audience}")
     private String audience;
 
-    // Configure the allowed API endpoints
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        String exclusionRegex = String.format(
-                "^(?!%s|%s|%s).*$",
-                "/api/auth/",
-                "/api/files/",
-                "/api/messages/"
-        );
-
-        web.ignoring().regexMatchers(exclusionRegex);
-    }
+    // Configure the Web API endpoints
+    //    @Override
+    //    public void configure(final WebSecurity web) throws Exception {
+    //        String exclusionRegex = String.format(
+    //                "^(?!%s|%s|%s).*$",
+    //                "/api/auth/",
+    //                "/api/files/",
+    //                "/api/messages/"
+    //        );
+    //
+    //        web.ignoring().regexMatchers(exclusionRegex);
+    //    }
 
     // Configure the security of the API endpoints
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .mvcMatchers("/api/auth/public").permitAll()
                 .antMatchers(
+                        "/api/**",
                         "/api/auth/**",
                         "/api/files/**",
                         "/api/messages/**"
