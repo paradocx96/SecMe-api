@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/messages")
-@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "*")
+@CrossOrigin(origins = "https://localhost:3000", allowedHeaders = "*", exposedHeaders = "*")
 public class MessagesController {
 
     private final MessagesApi messagesApi;
