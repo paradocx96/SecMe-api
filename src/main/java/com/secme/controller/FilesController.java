@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/files/")
+@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "*")
 public class FilesController {
 
     private FilesApi filesApi;
