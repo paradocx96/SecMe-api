@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * */
 @RestController
 @RequestMapping(path = "api/auth")
-@CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "*")
+@CrossOrigin(origins = "https://localhost:3000", allowedHeaders = "*", exposedHeaders = "*")
 public class AuthController {
 
     // Endpoint for Public Access - api/auth/public - GET
