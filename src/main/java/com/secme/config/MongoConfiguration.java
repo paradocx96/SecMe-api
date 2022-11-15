@@ -38,8 +38,8 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-//@Configuration
-//@EnableMongoRepositories("com.secme.repository")
+@Configuration
+@EnableMongoRepositories("com.secme.repository")
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
     @Value("${spring.data.mongodb.uri}")
