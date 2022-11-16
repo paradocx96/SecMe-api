@@ -31,8 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
-server-cert.pem
-server-key.pem
 
-src/main/resources/static/server-key.pem
-src/main/resources/static/server-cert.pem
+# Cetificates
+*.crt
+*.pem
+*.key
