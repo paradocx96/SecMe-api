@@ -36,3 +36,6 @@ build/
 *.crt
 *.pem
 *.key
+
+# Environment
+.env
