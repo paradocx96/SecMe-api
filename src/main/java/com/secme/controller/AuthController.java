@@ -35,7 +35,7 @@ public class AuthController {
     @GetMapping(value = "/admin")
     @PreAuthorize("hasAuthority('read:admin-post')")
     public Auth privateScopedAdminEndpoint() {
-        return new Auth("Authenticated. Role:Amin");
+        return new Auth("Authenticated. Role:Admin");
     }
 
     // Endpoint for Manager Access - api/auth/manager - GET
