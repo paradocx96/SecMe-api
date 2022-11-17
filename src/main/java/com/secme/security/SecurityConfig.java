@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.jwt.*;
@@ -41,29 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${auth0.audience}")
     private String audience;
 
-    // Configure the allowed API endpoints
-    @Override
-    public void configure(final WebSecurity web) throws Exception {
-        String exclusionRegex = String.format(
-                "^(?!%s|%s|%s).*$",
-                "/api/auth/",
-                "/api/files/",
-                "/api/messages/"
-        );
-
-        web.ignoring().regexMatchers(exclusionRegex);
-    }
-
     // Configure the security of the API endpoints
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers("/api/auth/public").permitAll()
-                .antMatchers(
-                        "/api/auth/**",
-                        "/api/files/**",
-                        "/api/messages/**"
-                )
+                .antMatchers("/api/**")
                 .authenticated()
                 .anyRequest()
                 .permitAll()

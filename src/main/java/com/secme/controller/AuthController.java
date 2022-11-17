@@ -2,6 +2,7 @@ package com.secme.controller;
 
 import com.secme.model.Auth;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * */
 @RestController
 @RequestMapping(path = "api/auth")
+@CrossOrigin(origins = "https://localhost:3000", allowedHeaders = "*", exposedHeaders = "*")
 public class AuthController {
 
     // Endpoint for Public Access - api/auth/public - GET
@@ -33,7 +35,7 @@ public class AuthController {
     @GetMapping(value = "/admin")
     @PreAuthorize("hasAuthority('read:admin-post')")
     public Auth privateScopedAdminEndpoint() {
-        return new Auth("Authenticated. Role:Amin");
+        return new Auth("Authenticated. Role:Admin");
     }
 
     // Endpoint for Manager Access - api/auth/manager - GET
