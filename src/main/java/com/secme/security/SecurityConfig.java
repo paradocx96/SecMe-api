@@ -72,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // Configure the JWT Authentication Validator
     private OAuth2TokenValidatorResult withAudience(final Jwt token) {
+        // System.out.println("JWT: " + token.getTokenValue());
         OAuth2Error audienceError = new OAuth2Error(
                 OAuth2ErrorCodes.INVALID_TOKEN,
                 "The token was not issued for the given audience",
